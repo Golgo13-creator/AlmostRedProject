@@ -41,5 +41,21 @@ namespace AlmostRed.WebAPI.Controllers
             var playerteams = playerTeamService.GetPlayersByTeam(teamId);
             return Ok(playerteams);
         }
+        //update a player's team
+        [HttpPut]
+        public IHttpActionResult PutPlayerTeam(int id, PlayerTeamEdit playerTeam)
+        {
+            if (id < 1)
+                return BadRequest("Invalid PlayerTeam number entry");
+            if (playerTeam.Id != id)
+                return BadRequest("PlayerTeam number missmatch");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var service = CreatePlayerTeamService();
+            var isSuccessful = service.PutPlayerTeam(playerTeam);
+            if (!isSuccessful)
+                return InternalServerError();
+            return Ok("Update Successful!");
+        }
     }
 }

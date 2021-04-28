@@ -49,5 +49,21 @@ namespace AlmostRed.Services
                 return query.ToList();
             }
         }
+        //update(a player's team)
+        public bool PutPlayerTeam(PlayerTeamEdit newPlayerTeamData)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var oldPlayerTeamData =
+                    ctx
+                    .PlayerTeams
+                    .Single(p => p.Id == newPlayerTeamData.Id);
+
+                oldPlayerTeamData.Id = newPlayerTeamData.Id;
+                oldPlayerTeamData.PlayerId = newPlayerTeamData.PlayerId;
+                oldPlayerTeamData.TeamId = newPlayerTeamData.TeamId;
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }
